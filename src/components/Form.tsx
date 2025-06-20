@@ -172,10 +172,7 @@ const Form = () => {
         <p className="text-red-500 text-sm">{errors.file.message}</p>
       )}
 
-      {fileRejections.length > 0 && (
-        <p className="text-red-500 text-sm">Invalid file: Check type and size</p>
-      )}
-    
+     
     <button type="submit" className="bg-blue-600 text-white px-4 py-2 rounded">
         Submit
       </button>

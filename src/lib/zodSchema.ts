@@ -39,7 +39,9 @@ const MAX_FILE_SIZE = 1 * 1024 * 1024
 const fileTypes = ['application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
   const fileSchema = z.object({
     file: z
-      .instanceof(File)
+      .custom<File>((val) => val instanceof File, {
+        message: 'You must upload a file',
+      })
       .refine(
         (file) =>
           fileTypes.includes(file.type),
@@ -49,7 +51,11 @@ const fileTypes = ['application/pdf', 'application/vnd.ms-powerpoint', 'applicat
         message: 'File size must be 1MB or less',
       }),
   });
+  type SignupType = z.infer<typeof SignUpSchema>
+  type SelectionsType = z.infer<typeof checkboxSchema>
+type TextAreaType = z.infer<typeof TextAreaSchema>
+type FileType = z.infer<typeof fileSchema>
  const formSchema = SignUpSchema.merge(checkboxSchema).merge(TextAreaSchema).merge(fileSchema)
 type FormSchemaType = z.infer<typeof formSchema>;
 
-export {formSchema, type FormSchemaType}
+export {formSchema, type FormSchemaType, type TextAreaType, TextAreaSchema, type FileType, fileSchema, type SelectionsType,checkboxSchema,type SignupType, SignUpSchema}
