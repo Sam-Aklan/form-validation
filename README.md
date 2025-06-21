@@ -1,3 +1,16 @@
+# React Form Validation with react-hook-form, Zod, and react-dropzone
+
+This project demonstrates how to implement a robust form validation in React using:
+- **react-hook-form** for form state management
+- **Zod** for schema validation
+- **react-dropzone** for file uploads with validation
+
+Features include:
+- Real-time (hot) validation
+- File type validation
+- Textarea character limit enforcement
+- Conditional disabling of select options
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
