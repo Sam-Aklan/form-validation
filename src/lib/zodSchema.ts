@@ -30,7 +30,7 @@ const checkboxSchema = z
 
   });
   const TextAreaSchema = z.object({
-    message: z
+    description: z
       .string()
       .nonempty({ message: 'Message is required' })
       .max(200, { message: 'Message must be at most 200 characters' }),

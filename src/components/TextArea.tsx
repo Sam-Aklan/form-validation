@@ -8,31 +8,30 @@ const TextArea = () => {
         watch,
         setValue,
     formState:{errors}}=useFormContext<TextAreaType>()
-    const messageValue = watch('message')
+    const descriptionValue = watch('description')
     const maxLength = 200
     const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{
-      console.log('message length',messageValue.length)
-      if(e.target.value.length<=200) setValue('message',e.target.value,{shouldValidate:true})
+      if(e.target.value.length<=200) setValue('description',e.target.value,{shouldValidate:true})
       
       
     }
   return (
     <>
     <label className="block font-medium">
-        Message:
+        Description:
         <textarea
-          {...register('message')}
-          value={messageValue}
+          {...register('description')}
+          value={descriptionValue}
           onChange={handleOnChange}
-          className={`w-full border rounded p-2 mt-1 ${messageValue.length > 200?'border-red-500 focus:border-red-500 ':'border-black'}`}
+          className={`w-full border rounded p-2 mt-1 ${descriptionValue.length > 200?'border-red-500 focus:border-red-500 ':'border-black'}`}
           rows={5}
         />
       </label>
       <div className="text-sm text-gray-600">
-        {messageValue.length} / {maxLength} characters
+        {descriptionValue.length} / {maxLength} characters
       </div>
-      {errors.message&& (
-        <p className="text-red-500 text-sm">{errors.message.message}</p>
+      {errors.description&& (
+        <p className="text-red-500 text-sm">{errors.description.message}</p>
       )}
     </>
   )

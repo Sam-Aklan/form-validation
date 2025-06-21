@@ -1,7 +1,7 @@
 import { useForm, type SubmitHandler } from 'react-hook-form';
 import { formSchema, type FormSchemaType } from '../lib/zodSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useDropzone, type DropEvent, type FileRejection } from 'react-dropzone';
+import { useDropzone,  type FileRejection } from 'react-dropzone';
 import { useCallback, useEffect } from 'react';
 
 const options = [
@@ -18,37 +18,32 @@ const Form = () => {
         watch,
         formState: { errors, },
         setValue,
-        trigger,
-        resetField
       } = useForm<FormSchemaType>({ resolver: zodResolver(formSchema),
         defaultValues:{
-          message:'',
+          description:'',
           file:undefined
         }
        });
 
       const selections = watch('selections')
-      const messageValue = watch('message')
+      const messageValue = watch('description')
       const maxLength = 200
-      // console.log("selection", selections, Array.isArray(selections))
-      // console.log('selections error', errors.selections?.message)
       const handleOnChange = (e: React.ChangeEvent<HTMLTextAreaElement>)=>{
-        setValue('message',e.target.value,{shouldValidate:true})
+        setValue('description',e.target.value,{shouldValidate:true})
         
       }
       const file = watch('file')
       const onDrop = useCallback(
-        (acceptedFiles: File[], fileRejections: FileRejection[], event: DropEvent) => {
+        (acceptedFiles: File[], fileRejections: FileRejection[],) => {
           if (acceptedFiles.length > 0) {
             setValue('file', acceptedFiles[0], { shouldValidate: true });
           } else if (fileRejections.length > 0) {
-            // Still assign the rejected file to trigger Zod validation
             setValue('file', fileRejections[0].file, { shouldValidate: true });
           }
         },
         []
       );
-      const{getRootProps,isDragActive,fileRejections,getInputProps,acceptedFiles} = useDropzone({
+      const{getRootProps,isDragActive,getInputProps,acceptedFiles} = useDropzone({
         onDrop,
         multiple:false,
         maxSize: 1 * 1024 * 1024,
@@ -62,13 +57,10 @@ const Form = () => {
         if (acceptedFiles[0] && acceptedFiles[0].type === 'application/pdf') {
           const fileURL = URL.createObjectURL(acceptedFiles[0]);
           const newWindow = window.open(fileURL, '_blank');
-    
-          // Revoke URL after preview is opened (safe delay)
           setTimeout(() => {
             URL.revokeObjectURL(fileURL);
           }, 1000);
-    
-          // Optional: handle popup blockers
+          
           if (!newWindow) {
             alert('Popup blocked. Please allow popups for this website to preview the file.');
           }
@@ -125,7 +117,7 @@ const Form = () => {
       <label className="block font-medium">
         Message:
         <textarea
-          {...register('message')}
+          {...register('description')}
           value={messageValue}
           onChange={handleOnChange}
           className={`w-full border rounded p-2 mt-1 ${messageValue.length > 200?'border-red-500 focus:border-red-500 ':'border-black'}`}
@@ -135,8 +127,8 @@ const Form = () => {
       <div className="text-sm text-gray-600">
         {messageValue.length} / {maxLength} characters
       </div>
-      {errors.message&& (
-        <p className="text-red-500 text-sm">{errors.message.message}</p>
+      {errors.description&& (
+        <p className="text-red-500 text-sm">{errors.description.message}</p>
       )}
 
       {/* file drop zone */}

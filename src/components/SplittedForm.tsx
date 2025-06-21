@@ -10,7 +10,7 @@ const SplittedForm = () => {
     const methods = useForm<FormSchemaType>({ 
         resolver: zodResolver(formSchema),
         defaultValues:{
-            message:''
+            description:''
         }})
     const SubmitHandlerFn:SubmitHandler<FormSchemaType> = (data)=> console.log(data)
   return (
