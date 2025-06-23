@@ -21,7 +21,7 @@ const DragNdrop = () => {
           []
         );
 
-        const{getRootProps,isDragActive,fileRejections,getInputProps,acceptedFiles} = useDropzone({
+        const{getRootProps,isDragActive,getInputProps,acceptedFiles} = useDropzone({
                 onDrop,
                 multiple:false,
                 maxSize: 1 * 1024 * 1024,

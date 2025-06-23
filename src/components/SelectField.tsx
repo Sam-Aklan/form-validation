@@ -9,10 +9,10 @@ const options = [
 ];
 
 const SelectField = () => {
-  const {register,watch}= useFormContext<SelectionsType>()
+  const {register,watch,formState:{errors}}= useFormContext<SelectionsType>()
   const selections = watch('selections')
   return (
-    
+    <>
     <fieldset style={{display:'flex',flexDirection:'column'}}>
     <legend className="font-bold mb-2">Select options:</legend>
     {options.map((opt) => (
@@ -32,6 +32,8 @@ const SelectField = () => {
       </label>
     ))}
   </fieldset>
+    {errors.selections?.message && <p>{errors.selections.message}</p>}
+    </>
   )
 }
 
