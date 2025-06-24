@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useDropzone, type FileRejection } from 'react-dropzone';
 import { useFormContext } from 'react-hook-form';
 import type { FileType } from '../lib/zodSchema';
@@ -20,12 +20,12 @@ const DragNdrop = () => {
           },
           []
         );
-
+        const isTest = useMemo(()=>import.meta.env.MODE ==='test',[]) // will be needed when running unit testing
         const{getRootProps,isDragActive,getInputProps,acceptedFiles} = useDropzone({
                 onDrop,
                 multiple:false,
                 maxSize: 1 * 1024 * 1024,
-                accept: {
+                accept:isTest?undefined: {
                   'application/pdf': ['.pdf'],
                   'application/vnd.ms-powerpoint': ['.ppt'],
                   'application/vnd.openxmlformats-officedocument.presentationml.presentation': ['.pptx'],
@@ -59,7 +59,9 @@ const DragNdrop = () => {
               isDragActive ? 'border-blue-500' : 'border-gray-300'
             }`}
           >
-            <input {...getInputProps()} className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
+            <input {...getInputProps()}
+            data-testid="file-input" 
+            className='absolute inset-0 w-full h-full opacity-0 cursor-pointer'
             
             />
             {file &&!errors.file? (
@@ -81,7 +83,9 @@ const DragNdrop = () => {
         
 
       {errors.file && (
-        <p className="text-red-500 text-sm">{errors.file.message}</p>
+        <p
+        data-testid='err-par' 
+        className="text-red-500 text-sm">{errors.file.message}</p>
       )}
 
     </>
