@@ -32,8 +32,8 @@ const checkboxSchema = z
   const TextAreaSchema = z.object({
     description: z
       .string()
-      .nonempty({ message: 'Message is required' })
-      .max(200, { message: 'Message must be at most 200 characters' }),
+      .nonempty({ message: 'Description is required' })
+      .max(200, { message: 'Description must be at most 200 characters' }),
   });
 const MAX_FILE_SIZE = 1 * 1024 * 1024
 const fileTypes = ['application/pdf', 'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation']
