@@ -1,11 +1,11 @@
 import { z } from 'zod';
 
 const SignUpSchema = z.object({
-  email: z.string().email(),
+  email: z.string().min(1,{message:'write an email'}).email(),
   password: z
     .string()
-    .min(3)
-    .max(20)
+    .min(3,{message:'password should be at least 3 characters'})
+    .max(20,{message:'should be at most 20'})
 });
 
 const checkboxSchema = z
